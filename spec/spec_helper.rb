@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'funtimes'
+require 'mocha'
 require 'rspec'
 require 'active_model'
 require 'uatu'
@@ -13,5 +14,5 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
-
+  config.mock_with :mocha
 end

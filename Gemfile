@@ -3,8 +3,12 @@ source :gemcutter
 gem 'activemodel'
 gem 'funtimes'
 
-group :development do
+group :test, :development do
   gem "rspec",        "~> 2.1.0"
+  gem "mocha"
+end
+
+group :development do
   gem "bundler",      "~> 1.0.0"
   gem "jeweler",      "~> 1.5.1"
   gem "rcov",         ">= 0"
