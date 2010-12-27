@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Uatu do
   describe "configure" do
+
     before do
       Uatu.configure do |config|
        config.user_strategy { :rodimus_prime }
@@ -16,18 +17,23 @@ describe Uatu do
 
   describe "creating a model" do
     context "with valid current_user strategy" do
+
       let(:ninja) { Ninja.new }
 
       before do
         Uatu.configure do |config|
          config.user_strategy { :rodimus_prime }
         end
+        ninja.stubs(:id).returns(3)
       end
 
       it "logs the create details" do
-        Uatu::Logger.expects(:create).with({:user => :rodimus_prime})
+        Uatu::Logger.expects(:create).with({:user => :rodimus_prime,
+                                            :type => "Ninja",
+                                            :id   => 3 })
         ninja.save
       end
+
     end
   end
 end

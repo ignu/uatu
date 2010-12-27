@@ -14,11 +14,7 @@ class Ninja
     @name
   end
 
-  def after_save
-    Uatu::Logger.create({:user=>:rodimus_prime})
-  end
-
   def save
-    after_save
+    _log_create
   end
 end
