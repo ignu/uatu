@@ -32,6 +32,15 @@ module Uatu
 
   module Logger
     def self.create(params)
+      AuditLog.new(params).save
     end
+  end
+end
+
+class AuditLog
+  def new(params)
+  end
+
+  def save
   end
 end

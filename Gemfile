@@ -4,6 +4,8 @@ gem 'activemodel'
 gem 'funtimes'
 
 group :test, :development do
+  gem "mongoid",      "2.0.0.beta.20"
+  gem "cucumber"
   gem "rspec",        "~> 2.1.0"
   gem "mocha"
 end
