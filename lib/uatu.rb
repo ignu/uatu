@@ -7,7 +7,8 @@ module Uatu
 
   module InstanceMethods
     def _log_create
-      Uatu::Logger.create({:user => :rodimus_prime,
+      p "logging #{self} #{self.id}"
+      Uatu::Logger.create({:user        => Uatu.current_user,
                            :entity_type => self.class.name,
                            :entity_id   => self.id })
     end
@@ -31,7 +32,8 @@ module Uatu
 
   module Logger
     def self.create(params)
-      AuditLog.new(params).save
+      audit_log = AuditLog.new(params)
+      audit_log.save!
     end
   end
 end
@@ -45,5 +47,4 @@ class AuditLog
 
   def save
   end
-
 end
