@@ -4,6 +4,7 @@ require 'funtimes'
 require 'mocha'
 require 'rspec'
 require 'active_model'
+require 'mongoid'
 require 'uatu'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))

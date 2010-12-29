@@ -1,5 +1,4 @@
 module Uatu
-
   def self.included(document_class)
     document_class.class_eval do
       include InstanceMethods
@@ -9,8 +8,8 @@ module Uatu
   module InstanceMethods
     def _log_create
       Uatu::Logger.create({:user => :rodimus_prime,
-                           :type => self.class.name,
-                           :id   => self.id })
+                           :entity_type => self.class.name,
+                           :entity_id   => self.id })
     end
   end
 
@@ -38,9 +37,13 @@ module Uatu
 end
 
 class AuditLog
-  def new(params)
-  end
+  include Mongoid::Document
+
+  field :user
+  field :entity_type
+  field :entity_id
 
   def save
   end
+
 end

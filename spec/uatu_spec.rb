@@ -27,8 +27,8 @@ describe Uatu do
 
       it "logs the create details" do
         Uatu::Logger.expects(:create).with({:user => :rodimus_prime,
-                                            :type => "Ninja",
-                                            :id   => 3 })
+                                            :entity_type => "Ninja",
+                                            :entity_id   => 3 })
         ninja.save
       end
 
@@ -41,8 +41,8 @@ describe Uatu do
       audit_log.expects(:save)
       ninja = Ninja.new
       AuditLog.expects(:new).with({:user => :rodimus_prime,
-                                            :type => "Ninja",
-                                            :id   => ninja.id }).returns(audit_log)
+                                            :entity_type => "Ninja",
+                                            :entity_id   => ninja.id }).returns(audit_log)
       ninja.save
     end
   end
