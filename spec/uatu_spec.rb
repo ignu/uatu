@@ -36,14 +36,12 @@ describe Uatu do
   end
 
   describe Uatu::Logger, ".create" do
-    it "creates a new AuditLog with params" do
-      audit_log = AuditLog.new
-      audit_log.expects(:save)
-      ninja = Ninja.new
-      AuditLog.expects(:new).with({:user => :rodimus_prime,
-                                            :entity_type => "Ninja",
-                                            :entity_id   => ninja.id }).returns(audit_log)
-      ninja.save
+
+    it "creates a new AuditLog with the given params" do
+      audit_log = {}
+      AuditLog.expects(:new).with(:these_params).returns(audit_log)
+      audit_log.expects(:save!)
+      Uatu::Logger.create(:these_params)
     end
   end
 end
