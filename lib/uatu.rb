@@ -14,7 +14,6 @@ module Uatu
   end
 
   class << self
-
     def current_user
       @block.call
     end
@@ -26,7 +25,6 @@ module Uatu
     def configure (&block)
       self.instance_eval(&block)
     end
-
   end
 
   module Logger
