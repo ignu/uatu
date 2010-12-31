@@ -4,8 +4,9 @@ Given /^my current user is "([^"]*)"$/ do |current_user|
   Uatu.current_user.should == current_user
 end
 
-When /^I create a new Ninja with name "([^"]*)"$/ do |name|
+When /^I create a new Ninja with name "([^"]*)"( and weapon "([^"]*)")?$/ do |name, full_weapon, weapon|
   ninja = Ninja.new (:name => name )
+  ninja.send(:weapon=, weapon) unless weapon.nil?
   ninja.save
 end
 
@@ -18,10 +19,9 @@ Then /^I should see the following logs:$/ do |table|
   end
 end
 
-When /^I create a new Ninja with name "([^"]*)" and weapon "([^"]*)"$/ do |arg1, arg2|
-  pending
-end
-
-When /^I update Ninja "([^"]*)" with "([^"]*)"$/ do |arg1, arg2|
-  pending
+When /^I update Ninja "([^"]*)" with "([^"]*)"$/ do |ninja_name, arguments|
+  ninja = Ninja.where(:name => ninja_name).first
+  arguments = arguments.split(":")
+  ninja.send(arguments[0], arguments[1])
+  ninja.save
 end

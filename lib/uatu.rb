@@ -1,12 +1,20 @@
 module Uatu
+
   def self.included(document_class)
     document_class.class_eval do
       include InstanceMethods
     end
     document_class.send(:after_create, :_log_create)
+    document_class.send(:after_update, :_log_update)
   end
 
   module InstanceMethods
+    def _log_update
+      Uatu::Logger.create({:user        => Uatu.current_user,
+                           :action      => "updated",
+                           :entity_type => self.class.name,
+                           :entity_id   => self.id })
+    end
     def _log_create
       Uatu::Logger.create({:user        => Uatu.current_user,
                            :action      => "created",
