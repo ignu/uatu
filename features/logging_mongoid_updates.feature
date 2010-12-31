@@ -20,6 +20,6 @@ Scenario: Log updates
   When I create a new Ninja with name "Bruce Lee" and weapon "Nunchucks"
   And  I update Ninja "Bruce Lee" with "weapon:sai"
   Then I should see the following logs:
-    | user                 | action  | type  | message                      |
-    | ignu.smith@gmail.com | created | Ninja | Created                      |
-    | ignu.smith@gmail.com | updated | Ninja | Changed "Nunchucks" to "sai" |
+    | user                 | action  | type  | message                                    |
+    | ignu.smith@gmail.com | created | Ninja | Created                                    |
+    | ignu.smith@gmail.com | updated | Ninja | Changed "weapon" from "Nunchucks" to "sai" |

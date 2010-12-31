@@ -6,8 +6,9 @@ end
 
 When /^I create a new Ninja with name "([^"]*)"( and weapon "([^"]*)")?$/ do |name, full_weapon, weapon|
   ninja = Ninja.new (:name => name )
-  ninja.send(:weapon=, weapon) unless weapon.nil?
+  ninja.weapon = weapon unless weapon.nil?
   ninja.save
+  ninja.reload
 end
 
 Then /^I should see the following logs:$/ do |table|
@@ -16,12 +17,13 @@ Then /^I should see the following logs:$/ do |table|
     audit_logs[index].entity_type.should == response_hash["type"]
     audit_logs[index].action.should      == response_hash["action"]
     audit_logs[index].user.should        == response_hash["user"]
+    audit_logs[index].message.should     == response_hash["message"] unless response_hash["message"].nil?
   end
 end
 
 When /^I update Ninja "([^"]*)" with "([^"]*)"$/ do |ninja_name, arguments|
-  ninja = Ninja.where(:name => ninja_name).first
+  ninja = Ninja.where(:name => ninja_name).last
   arguments = arguments.split(":")
-  ninja.send(arguments[0], arguments[1])
+  ninja.weapon = arguments[1]
   ninja.save
 end

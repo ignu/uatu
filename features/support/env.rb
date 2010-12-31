@@ -13,6 +13,7 @@ end
 
 Before do
   AuditLog.destroy_all
+  Ninja.destroy_all
 end
 
 Uatu.configure do |config|
