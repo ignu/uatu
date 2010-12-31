@@ -3,11 +3,13 @@ module Uatu
     document_class.class_eval do
       include InstanceMethods
     end
+    document_class.send(:after_create, :_log_create)
   end
 
   module InstanceMethods
     def _log_create
       Uatu::Logger.create({:user        => Uatu.current_user,
+                           :action      => "created",
                            :entity_type => self.class.name,
                            :entity_id   => self.id })
     end
@@ -41,5 +43,6 @@ class AuditLog
   field :user
   field :entity_type
   field :entity_id
+  field :action
 
 end

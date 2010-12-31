@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 class Ninja
-  include ActiveModel::Callbacks
-  include ActiveModel::Dirty
+  extend ActiveModel::Callbacks
+  define_model_callbacks :create
 
   include Uatu
 
@@ -14,7 +14,11 @@ class Ninja
     @name
   end
 
+  def create
+    _run_create_callbacks
+  end
+
   def save
-    _log_create
+    create
   end
 end
