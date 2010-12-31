@@ -26,9 +26,10 @@ describe Uatu do
 
     describe "creating a model" do
       it "logs the create details" do
-        ninja.expects(:persisted?).returns(false).at_least(1)
+        ninja.stubs(:persisted?).returns(false)
         Uatu::Logger.expects(:create).with({:user        => :rodimus_prime,
                                             :action      => "created",
+                                            :message     => "Created",
                                             :entity_type => "Ninja",
                                             :entity_id   => 3 })
         ninja.save
@@ -37,8 +38,9 @@ describe Uatu do
     end
 
     describe "updating a model" do
+
       before do
-        ninja.expects(:persisted?).returns(true).at_least(1)
+        ninja.stubs(:persisted?).returns(true)
         ninja.weapon = "sword"
         ninja.save
       end
@@ -46,6 +48,7 @@ describe Uatu do
       it "logs the update details" do
         Uatu::Logger.expects(:create).with({:user        => :rodimus_prime,
                                             :action      => "updated",
+                                            :message     => 'Changed "weapon" from "sword" to "pen"',
                                             :entity_type => "Ninja",
                                             :entity_id   => 3 })
 

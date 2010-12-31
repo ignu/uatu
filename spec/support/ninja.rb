@@ -2,11 +2,15 @@ require 'spec_helper'
 
 class Ninja
   extend ActiveModel::Callbacks
+  include ActiveModel::Dirty
+  define_attribute_methods [:weapon, :name]
+
   define_model_callbacks :create, :update
 
   include Uatu
 
   def weapon=(value)
+    weapon_will_change!
     @weapon=value
   end
 
@@ -15,6 +19,7 @@ class Ninja
   end
 
   def name=(value)
+    name_will_change!
     @name=value
   end
 

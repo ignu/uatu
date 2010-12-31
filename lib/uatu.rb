@@ -9,15 +9,29 @@ module Uatu
   end
 
   module InstanceMethods
+
+    def _get_changed_string
+      updates = "Changed"
+      prefix = ""
+      self.changes.each do |change|
+        prefix = "and " unless updates == "Changed"
+        updates = %{#{updates} #{prefix}"#{change[0]}" from "#{change[1][0]}" to "#{change[1][1]}"}
+      end
+      updates
+    end
+
     def _log_update
       Uatu::Logger.create({:user        => Uatu.current_user,
                            :action      => "updated",
+                           :message     => _get_changed_string,
                            :entity_type => self.class.name,
                            :entity_id   => self.id })
     end
+
     def _log_create
       Uatu::Logger.create({:user        => Uatu.current_user,
                            :action      => "created",
+                           :message     => "Created",
                            :entity_type => self.class.name,
                            :entity_id   => self.id })
     end
@@ -52,5 +66,6 @@ class AuditLog
   field :entity_type
   field :entity_id
   field :action
+  field :message
 
 end
