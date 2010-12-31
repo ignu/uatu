@@ -3,8 +3,7 @@ require 'spec_helper'
 class Ninja
   extend ActiveModel::Callbacks
   include ActiveModel::Dirty
-  define_attribute_methods [:weapon, :name]
-
+  define_attribute_methods [:name, :weapon]
   define_model_callbacks :create, :update
 
   include Uatu

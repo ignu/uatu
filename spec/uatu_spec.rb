@@ -42,17 +42,20 @@ describe Uatu do
       before do
         ninja.stubs(:persisted?).returns(true)
         ninja.weapon = "sword"
+        ninja.name = "John"
         ninja.save
       end
 
       it "logs the update details" do
+        new_message = 'Changed "name" from "John" to "Mary" and "weapon" from "sword" to "pen"'
         Uatu::Logger.expects(:create).with({:user        => :rodimus_prime,
                                             :action      => "updated",
-                                            :message     => 'Changed "weapon" from "sword" to "pen"',
+                                            :message     => new_message,
                                             :entity_type => "Ninja",
                                             :entity_id   => 3 })
 
         ninja.weapon = "pen"
+        ninja.name = "Mary"
         ninja.save
       end
     end

@@ -10,9 +10,9 @@ Scenario: Log creates
   When I create a new Ninja with name "Bruce Lee"
   And  I create a new Ninja with name "Raphael"
   Then I should see the following logs:
-    | user                 | action  | type  | item      |
-    | ignu.smith@gmail.com | created | Ninja | Bruce Lee |
-    | ignu.smith@gmail.com | created | Ninja | Raphael   |
+    | user                 | action  | type  |
+    | ignu.smith@gmail.com | created | Ninja |
+    | ignu.smith@gmail.com | created | Ninja |
 
 Scenario: Log updates
 
@@ -20,6 +20,6 @@ Scenario: Log updates
   When I create a new Ninja with name "Bruce Lee" and weapon "Nunchucks"
   And  I update Ninja "Bruce Lee" with "weapon:sai"
   Then I should see the following logs:
-    | user                 | action  | type  | item      | message                      |
-    | ignu.smith@gmail.com | created | Ninja | Bruce Lee | Created                      |
-    | ignu.smith@gmail.com | updated | Ninja | Bruce Lee | Changed "Nunchucks" to "sai" |
+    | user                 | action  | type  | message                      |
+    | ignu.smith@gmail.com | created | Ninja | Created                      |
+    | ignu.smith@gmail.com | updated | Ninja | Changed "Nunchucks" to "sai" |
