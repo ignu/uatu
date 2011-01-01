@@ -4,15 +4,24 @@ Given /^my current user is "([^"]*)"$/ do |current_user|
   Uatu.current_user.should == current_user
 end
 
-When /^I create a new Ninja with name "([^"]*)"( and weapon "([^"]*)")?$/ do |name, full_weapon, weapon|
-  ninja = Ninja.new (:name => name )
-  ninja.weapon = weapon unless weapon.nil?
-  ninja.save
-  ninja.reload
+When /^I create a new ([^"]*) with name "([^"]*)"( and weapon "([^"]*)")?$/ do |klass, name, full_weapon, weapon|
+  entity = Kernel.const_get(klass).new(:name => name )
+  entity.weapon = weapon unless weapon.nil?
+  entity.save
+  entity.reload
 end
 
-Then /^I should see the following logs( for "([^"]*)")?:$/ do |full_user, user, table|
-  audit_logs = AuditLog.all.to_a
+def get_audit_logs(type, entity)
+  p "Getting audit log for #{type} #{entity}"
+  return AuditLog.all.to_a if type.nil?
+  return audit_logs = AuditLog.for_entity(Ninja.where(:name => entity).first) if type == "ninja"
+  AuditLog.for_user entity
+end
+
+Then /^I should see the following logs( for (ninja|user) "([^"]*)")?:$/ do |full_user, type, entity, table|
+
+  audit_logs = get_audit_logs(type, entity)
+
   table.hashes.each_with_index do |response_hash,index|
     audit_logs[index].entity_type.should == response_hash["type"]
     audit_logs[index].action.should      == response_hash["action"]

@@ -69,4 +69,12 @@ class AuditLog
   field :action
   field :message
 
+  def self.for_user(user)
+    self.where :user => user
+  end
+
+  def self.for_entity(entity)
+    self.where(:entity_type => entity.class.name, :entity_id => entity.id).to_a
+  end
+
 end
