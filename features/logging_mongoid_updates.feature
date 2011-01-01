@@ -14,6 +14,18 @@ Scenario: Log creates
     | ignu.smith@gmail.com | created | Ninja |
     | ignu.smith@gmail.com | created | Ninja |
 
+Scenario: Get logs for a user
+
+  Given my current user is "rodimus@autobots.com"
+  And  I create a new Ninja with name "Leonardo"
+  Given my current user is "ignu.smith@gmail.com"
+  When I create a new Ninja with name "Bruce Lee"
+  And  I create a new Ninja with name "Raphael"
+  Then I should see the following logs for "ignu.smith@gmail.com":
+    | user                 | action  | type  |
+    | ignu.smith@gmail.com | created | Ninja |
+    | ignu.smith@gmail.com | created | Ninja |
+
 Scenario: Log updates
 
   Given my current user is "ignu.smith@gmail.com"

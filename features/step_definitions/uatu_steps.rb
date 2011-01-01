@@ -11,7 +11,7 @@ When /^I create a new Ninja with name "([^"]*)"( and weapon "([^"]*)")?$/ do |na
   ninja.reload
 end
 
-Then /^I should see the following logs:$/ do |table|
+Then /^I should see the following logs( for "([^"]*)")?:$/ do |full_user, user, table|
   audit_logs = AuditLog.all.to_a
   table.hashes.each_with_index do |response_hash,index|
     audit_logs[index].entity_type.should == response_hash["type"]
