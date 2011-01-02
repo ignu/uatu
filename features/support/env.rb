@@ -13,6 +13,7 @@ end
 
 Before do
   AuditLog.destroy_all
+  Clan.destroy_all
   Ninja.destroy_all
 end
 

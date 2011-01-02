@@ -24,7 +24,7 @@ describe Uatu do
       ninja.stubs(:id).returns(3)
     end
 
-    describe "creating a model" do
+    context "when creating a model" do
       it "logs the create details" do
         ninja.stubs(:persisted?).returns(false)
         Uatu::Logger.expects(:create).with({:user        => :rodimus_prime,
@@ -37,7 +37,7 @@ describe Uatu do
 
     end
 
-    describe "updating a model" do
+    context "when updating a model" do
 
       before do
         ninja.stubs(:persisted?).returns(true)

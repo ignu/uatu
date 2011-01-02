@@ -74,7 +74,24 @@ class AuditLog
   end
 
   def self.for_entity(entity)
-    self.where(:entity_type => entity.class.name, :entity_id => entity.id).to_a
+    self.where(:entity_type => entity.class.name, :entity_id => entity._id).to_a
   end
 
+  def to_s
+    "#{user} | #{action} | #{entity_type} | #{message} | #{entity_id}"
+  end
+
+  def self.print_collection(collection)
+    p "-" * 74
+    p "- AUDIT LOGS"
+    p "-" * 74
+    collection.to_a.each do |log|
+      p log.to_s
+    end
+    p "-" * 74
+  end
+
+  def self.print_all
+    print_collection self.all
+  end
 end

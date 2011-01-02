@@ -2,6 +2,7 @@ source :gemcutter
 
 gem 'activemodel'
 gem 'funtimes'
+gem 'bson_ext'
 gem "mongoid",      "2.0.0.beta.20"
 
 group :test, :development do
