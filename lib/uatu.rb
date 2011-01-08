@@ -82,13 +82,9 @@ class AuditLog
   end
 
   def self.print_collection(collection)
-    p "-" * 74
-    p "- AUDIT LOGS"
-    p "-" * 74
     collection.to_a.each do |log|
       p log.to_s
     end
-    p "-" * 74
   end
 
   def self.print_all
