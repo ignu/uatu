@@ -1,5 +1,13 @@
 require 'spec_helper'
 
+class NinjaTurtle
+  extend ActiveModel::Callbacks
+  include ActiveModel::Dirty
+  define_model_callbacks :create, :update
+  include Uatu
+  watched_by :ninja
+end
+
 describe Uatu do
   describe "configure" do
     before do
@@ -10,6 +18,13 @@ describe Uatu do
 
     it "takes a block that returns the current user" do
       Uatu.current_user.should == :rodimus_prime
+    end
+  end
+
+  describe ".watched_by" do
+
+    it "adds the class symbol to the watched classes" do
+      NinjaTurtle.watching_classes.first.should == :ninja
     end
   end
 
@@ -58,6 +73,24 @@ describe Uatu do
         ninja.name = "Mary"
         ninja.save
       end
+
+      it "logs updates to associated entities" do
+        ninja.name = "John"
+        ninja.save
+        clan = Clan.new
+        clan.save
+        new_message = 'Added Ninja "John"'
+        Uatu::Logger.expects(:create).with({:user        => :rodimus_prime,
+                                            :action      => "added",
+                                            :message     => new_message,
+                                            :entity_type => "Clan",
+                                            :entity_id   => clan.id })
+
+        ninja.to_s.should == "John"
+        clan.ninjas << ninja
+
+      end
+
     end
   end
 

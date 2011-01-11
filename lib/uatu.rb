@@ -1,12 +1,26 @@
 module Uatu
 
   def self.included(document_class)
+    document_class.instance_eval do
+      extend ClassMethods
+    end
     document_class.class_eval do
       include InstanceMethods
     end
     document_class.send(:after_create,  :_log_create)
     document_class.send(:before_update, :_store_changes)
     document_class.send(:after_update,  :_log_update)
+  end
+
+  module ClassMethods
+    def watching_classes
+      @watching_classes
+    end
+
+    def watched_by(klass)
+      @watching_classes ||= []
+      @watching_classes << klass
+    end
   end
 
   module InstanceMethods
@@ -35,7 +49,18 @@ module Uatu
                            :message     => "Created",
                            :entity_type => self.class.name,
                            :entity_id   => self.id })
+
+      self.class.watching_classes.each do |klass_name|
+        klass_name = klass_name.to_s
+        message = "Added #{self.class.name.capitalize} \"#{self.to_s}\""
+        Uatu::Logger.create({:user        => Uatu.current_user,
+                             :action      => "added",
+                             :message     => message,
+                             :entity_type => klass_name.capitalize,
+                             :entity_id   => self.send(klass_name).id })
+      end
     end
+
   end
 
   class << self
